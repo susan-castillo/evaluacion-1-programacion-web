@@ -1,7 +1,7 @@
 // Se importan las dependencias necesarias (El arreglo global de incidencias y la función para obtener el siguiente ID)
 const { incidencias, getSiguienteId } = require('../utils/helpers.js');
 
-const CrearIncidencia = (req, res) => {
+const crearIncidencia = (req, res) => {
  const { empleado, area, descripcion, prioridad } = req.body;
 
  // Validar que todos los campos existan
@@ -58,6 +58,21 @@ const listarIncidencias = (req, res) => {
     return res.json(incidencias);
 };
 
+// 3. Buscar Incidencia por ID
+const buscarIncidenciaPorId = (req, res) => {
+    const id = Number(req.params.id);
+
+    const incidencia = incidencias.find((inc) => inc.id === id);
+
+    if (!incidencia) {
+        return res.status(404).json({
+            mensaje: 'Incidencia no encontrada'
+        });
+    }
+
+    return res.status(200).json(incidencia);
+};
+
 // 4. Cambiar Estado de Incidencia
 const cambiarEstadoIncidencia = (req, res) => {
   const { id } = req.params;
@@ -100,6 +115,7 @@ const eliminarIncidencia = (req, res) => {
 module.exports = {
     CrearIncidencia,
     listarIncidencias,
+    buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
     eliminarIncidencia, 
 };

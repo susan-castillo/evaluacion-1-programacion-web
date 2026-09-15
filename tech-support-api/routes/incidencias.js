@@ -6,16 +6,19 @@ const router = express.Router();
 const {
     CrearIncidencia,
     listarIncidencias,
+    buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
     eliminarIncidencia,
-    //Aqui seguiran las siguientes ...
+  
+  
 } = require('../controllers/incidenciasController.js');
 
 router.post('/', CrearIncidencia);
 router.get('/', listarIncidencias);
+router.get('/:id', buscarIncidenciaPorId);
 router.put('/:id/estado', cambiarEstadoIncidencia);
 router.delete('/:id', eliminarIncidencia);
-//Aqui seguiran las siguientes ...
+
 
 // Se exporta el router para ser utilizado en la aplicación principal
 module.exports = router;
