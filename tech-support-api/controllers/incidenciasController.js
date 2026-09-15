@@ -83,8 +83,23 @@ const cambiarEstadoIncidencia = (req, res) => {
   }
 };
 
+// 5. Eliminar Incidencia
+const eliminarIncidencia = (req, res) => {
+  const { id } = req.params;
+
+  const index = incidencias.findIndex(inc => inc.id === parseInt(id));
+
+  if (index === -1) {
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+  }
+
+  incidencias.splice(index, 1);
+  return res.json({ mensaje: "Incidencia eliminada correctamente" });
+};
+
 module.exports = {
-     CrearIncidencia,
+    CrearIncidencia,
     listarIncidencias,
     cambiarEstadoIncidencia,
+    eliminarIncidencia, 
 };
