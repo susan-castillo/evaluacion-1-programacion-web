@@ -4,11 +4,13 @@ const router = express.Router();
 
 // Se importan las funciones del controlador de incidencias
 const {
+    CrearIncidencia,
     listarIncidencias,
     cambiarEstadoIncidencia,
     //Aqui seguiran las siguientes ...
 } = require('../controllers/incidenciasController.js');
 
+router.post('/', CrearIncidencia);
 router.get('/', listarIncidencias);
 router.put('/:id/estado', cambiarEstadoIncidencia);
 //Aqui seguiran las siguientes ...

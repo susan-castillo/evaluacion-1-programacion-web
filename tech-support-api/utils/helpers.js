@@ -8,4 +8,4 @@ let siguienteId = 1;
 module.exports = {
     incidencias,
     getSiguienteId: () => siguienteId++
-};
+}; 
