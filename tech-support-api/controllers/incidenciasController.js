@@ -1,8 +1,9 @@
 // Se importan las dependencias necesarias (El arreglo global de incidencias y la función para obtener el siguiente ID)
 const { incidencias, getSiguienteId } = require('../utils/helpers.js');
 
+// 1. Crear Incidencia
 const crearIncidencia = (req, res) => {
- const { empleado, area, descripcion, prioridad } = req.body;
+const { empleado, area, descripcion, prioridad } = req.body;
 
  // Validar que todos los campos existan
     if (
@@ -112,10 +113,24 @@ const eliminarIncidencia = (req, res) => {
   return res.json({ mensaje: "Incidencia eliminada correctamente" });
 };
 
+// 8. Endpoint de Estadísticas
+const obtenerEstadisticas = (req, res) => {
+    const estadisticas = {
+        totalIncidencias: incidencias.length,
+        pendientes: incidencias.filter(i => i.estado === "Pendiente").length,
+        enProceso: incidencias.filter(i => i.estado === "En Proceso").length,
+        resueltas: incidencias.filter(i => i.estado === "Resuelta").length,
+        canceladas: incidencias.filter(i => i.estado === "Cancelada").length
+    };
+
+    return res.json(estadisticas);
+};
+
 module.exports = {
-    CrearIncidencia,
+    crearIncidencia,
     listarIncidencias,
     buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
-    eliminarIncidencia, 
+    eliminarIncidencia,
+    obtenerEstadisticas
 };

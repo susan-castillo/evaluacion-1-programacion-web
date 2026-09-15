@@ -4,17 +4,23 @@ const router = express.Router();
 
 // Se importan las funciones del controlador de incidencias
 const {
-    CrearIncidencia,
+    crearIncidencia,
     listarIncidencias,
     buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
     eliminarIncidencia,
+    obtenerEstadisticas
   
   
 } = require('../controllers/incidenciasController.js');
 
-router.post('/', CrearIncidencia);
+router.post('/', crearIncidencia);
 router.get('/', listarIncidencias);
+
+// 1. Ruta estática
+router.get('/estadisticas', obtenerEstadisticas);
+
+// 2. Rutas que usan :id dinámico
 router.get('/:id', buscarIncidenciaPorId);
 router.put('/:id/estado', cambiarEstadoIncidencia);
 router.delete('/:id', eliminarIncidencia);
