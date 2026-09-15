@@ -1,7 +1,7 @@
 // Se importan las dependencias necesarias (El arreglo global de incidencias y la función para obtener el siguiente ID)
 const { incidencias, getSiguienteId } = require('../utils/helpers.js');
 
-const CrearIncidencia = (req, res) => {
+const crearIncidencia = (req, res) => {
  const { empleado, area, descripcion, prioridad } = req.body;
 
  // Validar que todos los campos existan
