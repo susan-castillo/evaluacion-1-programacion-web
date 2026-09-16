@@ -3,9 +3,9 @@ const { incidencias, getSiguienteId } = require('../utils/helpers.js');
 
 // 1. Crear Incidencia
 const crearIncidencia = (req, res) => {
-const { empleado, area, descripcion, prioridad } = req.body;
+    const { empleado, area, descripcion, prioridad } = req.body;
 
- // Validar que todos los campos existan
+    // Validar que todos los campos existan
     if (
         empleado === undefined ||
         area === undefined ||
@@ -28,7 +28,7 @@ const { empleado, area, descripcion, prioridad } = req.body;
         });
     }
 
-     // Validar prioridad
+    // Validar prioridad
     if (
         prioridad !== 'Alta' &&
         prioridad !== 'Media' &&
@@ -39,7 +39,7 @@ const { empleado, area, descripcion, prioridad } = req.body;
         });
     }
 
-     // Crear la incidencia
+    // Crear la incidencia
     const nuevaIncidencia = {
         id: getSiguienteId(),
         empleado: empleado.trim(),
@@ -48,7 +48,7 @@ const { empleado, area, descripcion, prioridad } = req.body;
         prioridad: prioridad,
         estado: 'Pendiente'
     };
- 
+
     // Agregar la incidencia al arreglo global
     incidencias.push(nuevaIncidencia);
     return res.status(201).json(nuevaIncidencia);
@@ -76,44 +76,54 @@ const buscarIncidenciaPorId = (req, res) => {
 
 // 4. Cambiar Estado de Incidencia
 const cambiarEstadoIncidencia = (req, res) => {
-  const { id } = req.params;
-  const { estado } = req.body;
+    const { id } = req.params;
+    const { estado } = req.body;
 
-  // Validar que la incidencia exista
-  const incidencia = incidencias.find(inc => inc.id === parseInt(id));
+    // Validar que la incidencia exista
+    const incidencia = incidencias.find(inc => inc.id === parseInt(id));
 
-  if (!incidencia) {
-    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
-  }
+    if (!incidencia) {
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+    }
 
-  // Validar el estado
-  switch (estado) {
-    case "Pendiente":
-    case "En Proceso":
-    case "Resuelta":
-    case "Cancelada":
-      incidencia.estado = estado;
-      return res.json({ mensaje: "Estado actualizado correctamente", incidencia });
-    default:
-      return res.status(400).json({ mensaje: "Estado no válido" });
-  }
+    // Validar el estado
+    switch (estado.trim().toLowerCase()) {
+        case "pendiente":
+            incidencia.estado = "Pendiente";
+            break;
+        case "en proceso":
+            incidencia.estado = "En Proceso";
+            break;
+        case "resuelta":
+            incidencia.estado = "Resuelta";
+            break;
+        case "cancelada":
+            incidencia.estado = "Cancelada";
+            break;
+        default:
+            return res.status(400).json({ mensaje: "Estado no válido" });
+    }
+
+    return res.json({ mensaje: "Estado actualizado correctamente", incidencia });
 };
 
 // 5. Eliminar Incidencia
 const eliminarIncidencia = (req, res) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  const index = incidencias.findIndex(inc => inc.id === parseInt(id));
+    //findIndex devuelve el índice del primer elemento que cumple con la condición proporcionada
+    const index = incidencias.findIndex(inc => inc.id === parseInt(id));
 
-  if (index === -1) {
-    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
-  }
+    if (index === -1) {
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+    }
 
-  incidencias.splice(index, 1);
-  return res.json({ mensaje: "Incidencia eliminada correctamente" });
+    //splice elimina el elemento del arreglo en la posición especificada
+    incidencias.splice(index, 1);
+    return res.json({ mensaje: "Incidencia eliminada correctamente" });
 };
 
-// 7. Endpoint de Estadísticas
+// 6. Endpoint de Estadísticas
 const obtenerEstadisticas = (req, res) => {
     const estadisticas = {
         totalIncidencias: incidencias.length,
@@ -126,7 +136,7 @@ const obtenerEstadisticas = (req, res) => {
     return res.json(estadisticas);
 };
 
-// 8. Clasificación Automática
+// 7. Clasificación Automática
 const clasificarIncidencia = (req, res) => {
     //Se toma el id que viene como parametro de la ruta
     const id = parseInt(req.params.id);
@@ -158,6 +168,7 @@ const clasificarIncidencia = (req, res) => {
     });
 };
 
+// Se exportan las funciones del controlador para ser utilizadas en las rutas
 module.exports = {
     crearIncidencia,
     listarIncidencias,

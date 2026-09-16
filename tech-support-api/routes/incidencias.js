@@ -11,8 +11,8 @@ const {
     eliminarIncidencia,
     obtenerEstadisticas,
     clasificarIncidencia
-  
-  
+
+
 } = require('../controllers/incidenciasController.js');
 
 router.post('/', crearIncidencia);
@@ -22,11 +22,11 @@ router.get('/', listarIncidencias);
 router.get('/estadisticas', obtenerEstadisticas);
 
 // 2. Rutas que usan :id dinámico
-router.get('/:id', buscarIncidenciaPorId);
 router.put('/:id/estado', cambiarEstadoIncidencia);
-router.delete('/:id', eliminarIncidencia);
 router.get('/:id/clasificacion', clasificarIncidencia);
 
+router.delete('/:id', eliminarIncidencia);
+router.get('/:id', buscarIncidenciaPorId);
 
 // Se exporta el router para ser utilizado en la aplicación principal
 module.exports = router;
