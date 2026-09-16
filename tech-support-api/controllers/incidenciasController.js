@@ -51,7 +51,9 @@ const crearIncidencia = (req, res) => {
 
     // Agregar la incidencia al arreglo global
     incidencias.push(nuevaIncidencia);
-    return res.status(201).json(nuevaIncidencia);
+    return res.status(201).json({
+        mensaje: 'Incidencia registrada correctamente',
+    });
 };
 
 // 2. Listar Incidencias
@@ -162,6 +164,7 @@ const clasificarIncidencia = (req, res) => {
             clasificacion = "Desconocida";
     }
 
+    //Se devuelve la clasificación junto con el id de la incidencia
     return res.json({
         id: incidencia.id,
         clasificacion: clasificacion
