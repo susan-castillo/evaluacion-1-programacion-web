@@ -9,7 +9,8 @@ const {
     buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
     eliminarIncidencia,
-    obtenerEstadisticas
+    obtenerEstadisticas,
+    clasificarIncidencia
   
   
 } = require('../controllers/incidenciasController.js');
@@ -24,6 +25,7 @@ router.get('/estadisticas', obtenerEstadisticas);
 router.get('/:id', buscarIncidenciaPorId);
 router.put('/:id/estado', cambiarEstadoIncidencia);
 router.delete('/:id', eliminarIncidencia);
+router.get('/:id/clasificacion', clasificarIncidencia);
 
 
 // Se exporta el router para ser utilizado en la aplicación principal

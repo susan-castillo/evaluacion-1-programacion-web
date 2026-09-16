@@ -113,7 +113,7 @@ const eliminarIncidencia = (req, res) => {
   return res.json({ mensaje: "Incidencia eliminada correctamente" });
 };
 
-// 8. Endpoint de Estadísticas
+// 7. Endpoint de Estadísticas
 const obtenerEstadisticas = (req, res) => {
     const estadisticas = {
         totalIncidencias: incidencias.length,
@@ -126,11 +126,44 @@ const obtenerEstadisticas = (req, res) => {
     return res.json(estadisticas);
 };
 
+// 8. Clasificación Automática
+const clasificarIncidencia = (req, res) => {
+    //Se toma el id que viene como parametro de la ruta
+    const id = parseInt(req.params.id);
+    //Se busca la incidencia en el arreglo global
+    const incidencia = incidencias.find(item => item.id === id);
+
+    if (!incidencia) {
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+    }
+
+    let clasificacion = "";
+    switch (incidencia.prioridad) {
+        case "Alta":
+            clasificacion = "Crítica";
+            break;
+        case "Media":
+            clasificacion = "Importante";
+            break;
+        case "Baja":
+            clasificacion = "Normal";
+            break;
+        default:
+            clasificacion = "Desconocida";
+    }
+
+    return res.json({
+        id: incidencia.id,
+        clasificacion: clasificacion
+    });
+};
+
 module.exports = {
     crearIncidencia,
     listarIncidencias,
     buscarIncidenciaPorId,
     cambiarEstadoIncidencia,
     eliminarIncidencia,
-    obtenerEstadisticas
+    obtenerEstadisticas,
+    clasificarIncidencia
 };
