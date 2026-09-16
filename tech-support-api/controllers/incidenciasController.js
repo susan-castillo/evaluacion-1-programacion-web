@@ -164,6 +164,7 @@ const clasificarIncidencia = (req, res) => {
             clasificacion = "Desconocida";
     }
 
+    //Se devuelve la clasificación junto con el id de la incidencia
     return res.json({
         id: incidencia.id,
         clasificacion: clasificacion
